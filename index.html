@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Bel Paese Gelato</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            background-color: #000;
+        }
+
+        /* Counter Sidebar - 30% width */
+        .counter-sidebar {
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(135deg, #60967c, #2d9b66);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            z-index: 3;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+            min-width: 380px;
+        }
+
+        /* Video Container - 70% width with flexible centering */
+        .video-container {
+            position: relative;
+            width: 70%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #bb4a3e;
+            overflow: hidden;
+        }
+
+        /* Video wrapper for centering and flexible sizing */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .store-video {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            /*border-radius: 10px;*/
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Video overlay for subtle darkening */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /*background: rgba(0, 0, 0, 0.2);*/
+            z-index: 2;
+        }
+
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+        }
+
+        .video-btn {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .video-btn:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        /* Top Text Overlay - Welcome to IlBelPaese */
+        .top-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 30px;
+            z-index: 5;
+            /*background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));*/
+        }
+
+        .welcome-text {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 30px rgba(255, 215, 0, 0.7),
+                0 0 40px rgba(255, 140, 0, 0.5);
+
+            letter-spacing: 4px;
+            animation: blink 2.5s infinite alternate;
+            font-family: 'Georgia', serif;
+        }
+
+        /* Blinking animation for welcome text */
+        @keyframes blink {
+
+            0%,
+            45% {
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 30px rgba(255, 215, 0, 0.7),
+                    0 0 40px rgba(255, 140, 0, 0.5);
+            }
+
+            50%,
+            55% {
+                opacity: 0.7;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                    0 0 15px rgba(255, 215, 0, 0.4),
+                    0 0 20px rgba(255, 140, 0, 0.3);
+            }
+
+            60%,
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 30px rgba(255, 215, 0, 0.7),
+                    0 0 40px rgba(255, 140, 0, 0.5);
+            }
+        }
+
+        /* Bottom Text Overlay - Gelato Italiano */
+        .bottom-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 30px;
+            z-index: 5;
+            /*background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));*/
+        }
+
+        .gelato-text {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7),
+                0 0 25px rgba(173, 216, 230, 0.6),
+                0 0 35px rgba(135, 206, 235, 0.5);
+            letter-spacing: 3px;
+            /*font-style: italic;*/
+            font-family: 'Georgia', serif;
+            animation: gentlePulse 4s infinite alternate;
+        }
+
+        /* Gentle pulsing animation for gelato text */
+        @keyframes gentlePulse {
+
+            0%,
+            100% {
+                opacity: 0.9;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.03);
+            }
+        }
+
+        /* Video frame/border effect */
+        .video-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Header Section */
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .store-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .counter-label {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #f8f8f8;
+        }
+
+        /* Date and Time Display - Now with flexible width */
+        .datetime-container {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            /* Make it full width */
+        }
+
+        .date-display {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f8f8f8;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .time-display {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .time-period {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8f8f8;
+            margin-left: 5px;
+        }
+
+        /* Counter Display - LARGER AND MORE FLEXIBLE */
+        .counter-display-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            width: 100%;
+            /* Full width container */
+        }
+
+        .counter-display {
+            font-size: 6rem;
+            /* Larger font size */
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 3px 3px 20px rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 25px 20px;
+            /* Adjusted padding */
+            border-radius: 15px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            /*letter-spacing: 6px;
+            /* Slightly more spacing */
+            text-align: center;
+            width: 100%;
+            /* Match date/time container width */
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 240px;
+            /* Increased minimum height */
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Counter display with responsive font size */
+        @media (max-height: 900px) {
+            .counter-display {
+                font-size: 8rem;
+                min-height: 220px;
+            }
+
+            .welcome-text {
+                font-size: 3.5rem;
+            }
+
+            .gelato-text {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .counter-display {
+                font-size: 7rem;
+                min-height: 200px;
+            }
+
+            .welcome-text {
+                font-size: 3.2rem;
+            }
+
+            .gelato-text {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .counter-display {
+                font-size: 6.5rem;
+                min-height: 180px;
+                padding: 20px 15px;
+            }
+
+            .welcome-text {
+                font-size: 2.8rem;
+                padding: 20px;
+            }
+
+            .gelato-text {
+                font-size: 2.4rem;
+                padding: 20px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .counter-display {
+                font-size: 5.5rem;
+                min-height: 160px;
+                padding: 18px 15px;
+                letter-spacing: 8px;
+            }
+
+            .welcome-text {
+                font-size: 2.4rem;
+                padding: 15px;
+                letter-spacing: 2px;
+            }
+
+            .gelato-text {
+                font-size: 2rem;
+                padding: 15px;
+                letter-spacing: 2px;
+            }
+
+            .top-overlay,
+            .bottom-overlay {
+                padding: 15px;
+            }
+        }
+
+        /* For wider sidebar screens */
+        @media (min-width: 1400px) {
+            .counter-display {
+                font-size: 10rem;
+                min-height: 260px;
+            }
+
+            .time-display {
+                font-size: 3.2rem;
+            }
+        }
+
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .control-btn {
+            padding: 18px 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-height: 65px;
+            /* Slightly taller buttons */
+            width: 100%;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .prev-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        /* For wider screens, show buttons side by side */
+        @media (min-width: 1100px) and (min-height: 700px) {
+            .controls {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .control-btn {
+                flex: 1;
+                padding: 16px 10px;
+                font-size: 1.2rem;
+                min-height: 60px;
+            }
+
+            .control-btn i {
+                margin-right: 5px;
+            }
+        }
+
+        /* Counter Stats */
+        .counter-stats {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* Instructions */
+        .instructions {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .instructions p {
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .counter-sidebar {
+                min-width: 350px;
+            }
+
+            .counter-display {
+                font-size: 7rem;
+                min-height: 200px;
+            }
+
+            .store-title {
+                font-size: 1.8rem;
+            }
+
+            .counter-label {
+                font-size: 1.2rem;
+            }
+
+            .time-display {
+                font-size: 2.5rem;
+            }
+
+            .date-display {
+                font-size: 1.2rem;
+            }
+
+            .welcome-text {
+                font-size: 3rem;
+            }
+
+            .gelato-text {
+                font-size: 2.6rem;
+            }
+
+            .control-btn {
+                padding: 16px 10px;
+                font-size: 1.2rem;
+                min-height: 60px;
+            }
+
+            .video-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+
+            .counter-sidebar {
+                width: 100%;
+                height: 40%;
+                min-width: 100%;
+                padding: 20px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .video-container {
+                width: 100%;
+                height: 60%;
+            }
+
+            .store-video {
+                max-width: 90%;
+                max-height: 90%;
+            }
+
+            .welcome-text {
+                font-size: 2.5rem;
+                padding: 20px;
+            }
+
+            .gelato-text {
+                font-size: 2.2rem;
+                padding: 20px;
+            }
+
+            .sidebar-header {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .datetime-container {
+                width: 48%;
+                margin-bottom: 15px;
+            }
+
+            .counter-display-container {
+                width: 48%;
+                justify-content: flex-start;
+                margin: 0;
+            }
+
+            .counter-display {
+                font-size: 6rem;
+                min-height: 180px;
+                margin-bottom: 15px;
+            }
+
+            .controls {
+                width: 100%;
+                flex-direction: row;
+                max-width: 100%;
+                margin-top: 10px;
+                gap: 10px;
+            }
+
+            .control-btn {
+                flex: 1;
+                padding: 14px 8px;
+                font-size: 1.1rem;
+                min-height: 55px;
+            }
+
+            .counter-stats {
+                width: 48%;
+                margin-top: 15px;
+            }
+
+            .instructions {
+                width: 48%;
+                margin-top: 15px;
+            }
+
+            .video-controls {
+                right: 20px;
+                top: 20px;
+            }
+
+            .footer {
+                width: 48%;
+                margin-top: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .counter-sidebar {
+                height: auto;
+                min-height: 40%;
+            }
+
+            .datetime-container,
+            .counter-display-container,
+            .counter-stats,
+            .instructions,
+            .footer {
+                width: 100%;
+            }
+
+            .datetime-container {
+                order: 1;
+            }
+
+            .counter-display-container {
+                order: 2;
+            }
+
+            .controls {
+                order: 3;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .counter-stats {
+                order: 4;
+            }
+
+            .instructions {
+                order: 5;
+            }
+
+            .footer {
+                order: 6;
+            }
+
+            .counter-display {
+                font-size: 5.5rem;
+                min-height: 170px;
+            }
+
+            .video-container {
+                height: 50%;
+            }
+
+            .welcome-text {
+                font-size: 2rem;
+                padding: 15px;
+            }
+
+            .gelato-text {
+                font-size: 1.8rem;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .counter-sidebar {
+                padding: 15px;
+            }
+
+            .counter-display {
+                font-size: 4.5rem;
+                letter-spacing: 7px;
+                padding: 15px;
+                min-height: 140px;
+                margin-bottom: 20px;
+            }
+
+            .store-title {
+                font-size: 1.5rem;
+            }
+
+            .counter-label {
+                font-size: 1rem;
+            }
+
+            .time-display {
+                font-size: 2rem;
+            }
+
+            .date-display {
+                font-size: 1rem;
+            }
+
+            .welcome-text {
+                font-size: 1.6rem;
+                padding: 10px;
+                letter-spacing: 1px;
+            }
+
+            .gelato-text {
+                font-size: 1.4rem;
+                padding: 10px;
+                letter-spacing: 1px;
+            }
+
+            .control-btn {
+                padding: 15px 10px;
+                font-size: 1.1rem;
+                min-height: 55px;
+            }
+
+            .video-controls {
+                top: 10px;
+                right: 10px;
+            }
+
+            .video-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Special handling for portrait videos */
+        @media (orientation: portrait) and (max-width: 992px) {
+            .store-video {
+                max-height: 70%;
+                max-width: 95%;
+            }
+
+            .welcome-text {
+                font-size: 2.2rem;
+            }
+
+            .gelato-text {
+                font-size: 1.9rem;
+            }
+        }
+
+        /* Special handling for landscape videos */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .store-video {
+                max-height: 90%;
+                max-width: 80%;
+            }
+
+            .welcome-text {
+                font-size: 2rem;
+                padding: 10px;
+            }
+
+            .gelato-text {
+                font-size: 1.7rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Counter Sidebar - 30% width -->
+    <div class="counter-sidebar">
+        <div class="sidebar-header">
+            <h1 class="store-title">IlBelPaese Gelato</h1>
+            <div class="counter-label">Now Serving Customer Call Number</div>
+        </div>
+
+        <!-- Date and Time Display -->
+        <div class="datetime-container">
+            <div class="date-display" id="dateDisplay">Monday, January 1, 2023</div>
+            <div class="time-display">
+                <span id="timeDisplay">12:00</span>
+                <span class="time-period" id="timePeriod">PM</span>
+            </div>
+        </div>
+
+        <!-- Counter Display - NOW LARGER AND SAME WIDTH -->
+        <div class="counter-display-container">
+            <div class="counter-display" id="counterDisplay">0001</div>
+
+            <!-- Control Buttons -->
+            <div class="controls">
+                <button class="control-btn prev-btn" id="prevBtn">
+                    <i class="fas fa-backward"></i> <span class="btn-text">Previous</span>
+                </button>
+                <button class="control-btn next-btn" id="nextBtn">
+                    <i class="fas fa-forward"></i> <span class="btn-text">Next</span>
+                </button>
+                <button class="control-btn reset-btn" id="resetBtn">
+                    <i class="fas fa-redo"></i> <span class="btn-text">Reset</span>
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Video Container - 70% width with centered video -->
+    <div class="video-container">
+        <div class="video-wrapper">
+            <video autoplay muted loop playsinline class="store-video" id="storeVideo">
+                <!-- You can replace this with your own store video -->
+                <!-- For demo purposes, using a gelato/ice cream related video -->
+                <source src="./video/GelatoTvCouch.mp4" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+            <div class="video-overlay"></div>
+            <div class="video-frame"></div>
+
+            <!-- Top Text Overlay -->
+            <div class="top-overlay">
+                <div class="welcome-text" id="welcomeText">Welcome to IlBelPaese</div>
+            </div>
+
+            <!-- Bottom Text Overlay -->
+            <div class="bottom-overlay">
+                <div class="gelato-text" id="gelatoText">Gelato Italiano</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Controls -->
+    <div class="video-controls">
+        <div class="video-btn" id="playPauseBtn">
+            <i class="fas fa-pause"></i>
+        </div>
+        <div class="video-btn" id="muteBtn">
+            <i class="fas fa-volume-up"></i>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // DOM Elements
+            const counterDisplay = document.getElementById('counterDisplay');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const storeVideo = document.getElementById('storeVideo');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const muteBtn = document.getElementById('muteBtn');
+            const dateDisplay = document.getElementById('dateDisplay');
+            const timeDisplay = document.getElementById('timeDisplay');
+            const timePeriod = document.getElementById('timePeriod');
+            const counterStarted = document.getElementById('counterStarted');
+            const lastUpdated = document.getElementById('lastUpdated');
+            const totalChanges = document.getElementById('totalChanges');
+            const welcomeText = document.getElementById('welcomeText');
+            const gelatoText = document.getElementById('gelatoText');
+
+            // Initialize counter from localStorage or start at 1
+            let counter = parseInt(localStorage.getItem('storeCounter')) || 1;
+            let totalChangesCount = parseInt(localStorage.getItem('totalChanges')) || 0;
+            let counterStartTime = localStorage.getItem('counterStartTime') || new Date().toISOString();
+            let lastUpdateTime = localStorage.getItem('lastUpdateTime') || new Date().toISOString();
+
+            // Format counter to 4 digirts (0001, 0002, etc.)
+            function formatCounter(num) {
+                return num.toString().padStart(4, '0');
+            }
+
+            // Format date to display
+            function formatDate(date) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            // Format time to display
+            function formatTime(date) {
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                let seconds = date.getSeconds();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+
+                // Convert to 12-hour format
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+
+                // Add leading zeros
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                return { time: `${hours}:${minutes}:${seconds}`, period: ampm };
+            }
+
+            // Update date and time display
+            function updateDateTime() {
+                const now = new Date();
+                dateDisplay.textContent = formatDate(now);
+                const timeObj = formatTime(now);
+                timeDisplay.textContent = timeObj.time;
+                timePeriod.textContent = timeObj.period;
+            }
+
+            // Update counter stats
+            function updateStats() {
+                const startDate = new Date(counterStartTime);
+                const updateDate = new Date(lastUpdateTime);
+                const now = new Date();
+
+                // Format start time
+                if (isToday(startDate)) {
+                    counterStarted.textContent = "Today";
+                } else if (isYesterday(startDate)) {
+                    counterStarted.textContent = "Yesterday";
+                } else {
+                    const options = { month: 'short', day: 'numeric' };
+                    counterStarted.textContent = startDate.toLocaleDateString('en-US', options);
+                }
+
+                // Format last updated time
+                const diffInSeconds = Math.floor((now - updateDate) / 1000);
+                if (diffInSeconds < 60) {
+                    lastUpdated.textContent = "Just now";
+                } else if (diffInSeconds < 3600) {
+                    const minutes = Math.floor(diffInSeconds / 60);
+                    lastUpdated.textContent = `${minutes}m ago`;
+                } else if (diffInSeconds < 86400) {
+                    const hours = Math.floor(diffInSeconds / 3600);
+                    lastUpdated.textContent = `${hours}h ago`;
+                } else {
+                    const options = { month: 'short', day: 'numeric' };
+                    lastUpdated.textContent = updateDate.toLocaleDateString('en-US', options);
+                }
+
+                // Update total changes
+                totalChanges.textContent = totalChangesCount;
+            }
+
+            // Helper functions for date comparison
+            function isToday(date) {
+                const today = new Date();
+                return date.getDate() === today.getDate() &&
+                    date.getMonth() === today.getMonth() &&
+                    date.getFullYear() === today.getFullYear();
+            }
+
+            function isYesterday(date) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                return date.getDate() === yesterday.getDate() &&
+                    date.getMonth() === yesterday.getMonth() &&
+                    date.getFullYear() === yesterday.getFullYear();
+            }
+
+            // Update counter display
+            function updateCounter() {
+                counterDisplay.textContent = formatCounter(counter);
+                localStorage.setItem('storeCounter', counter.toString());
+
+                // Update last updated time
+                lastUpdateTime = new Date().toISOString();
+                localStorage.setItem('lastUpdateTime', lastUpdateTime);
+
+                // Update stats
+                updateStats();
+
+                // Add a dramatic animation effect for the larger counter
+                counterDisplay.style.transform = 'scale(1.1)';
+                counterDisplay.style.backgroundColor = 'rgba(46, 204, 113, 0.4)';
+                counterDisplay.style.boxShadow = '0 0 30px rgba(46, 204, 113, 0.5)';
+
+                setTimeout(() => {
+                    counterDisplay.style.transform = 'scale(1)';
+                    counterDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                    counterDisplay.style.boxShadow = 'none';
+                }, 300);
+
+                // Adjust font size if needed for larger numbers
+                adjustFontSizeForCounter();
+            }
+
+            // Adjust font size based on counter value
+            function adjustFontSizeForCounter() {
+                const counterLength = counter.toString().length;
+                const displayElement = counterDisplay;
+
+                // Reset to default font size
+                displayElement.style.fontSize = '';
+
+                // Adjust for larger numbers
+                if (counterLength >= 5) {
+                    displayElement.style.fontSize = '7rem';
+                }
+
+                // For very large numbers, reduce further
+                if (counterLength >= 6) {
+                    displayElement.style.fontSize = '6rem';
+                }
+            }
+
+            // Next button click handler
+            nextBtn.addEventListener('click', function () {
+                counter++;
+                totalChangesCount++;
+                localStorage.setItem('totalChanges', totalChangesCount.toString());
+                updateCounter();
+
+                // Play a sound effect (optional)
+                playClickSound();
+            });
+
+            // Previous button click handler
+            prevBtn.addEventListener('click', function () {
+                if (counter > 1) {
+                    counter--;
+                    totalChangesCount++;
+                    localStorage.setItem('totalChanges', totalChangesCount.toString());
+                    updateCounter();
+
+                    // Play a sound effect (optional)
+                    playClickSound();
+                } else {
+                    // Visual feedback when already at 1
+                    counterDisplay.style.backgroundColor = 'rgba(231, 76, 60, 0.4)';
+                    counterDisplay.style.boxShadow = '0 0 30px rgba(231, 76, 60, 0.5)';
+                    setTimeout(() => {
+                        counterDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                        counterDisplay.style.boxShadow = 'none';
+                    }, 300);
+                }
+            });
+
+            // Reset button click handler
+            resetBtn.addEventListener('click', function () {
+                if (confirm('Are you sure you want to reset the counter to 0001?')) {
+                    counter = 1;
+                    totalChangesCount = 0;
+                    counterStartTime = new Date().toISOString();
+
+                    localStorage.setItem('storeCounter', counter.toString());
+                    localStorage.setItem('totalChanges', totalChangesCount.toString());
+                    localStorage.setItem('counterStartTime', counterStartTime);
+
+                    updateCounter();
+
+                    // Play a sound effect (optional)
+                    playClickSound();
+                }
+            });
+
+            // Video control: play/pause
+            playPauseBtn.addEventListener('click', function () {
+                if (storeVideo.paused) {
+                    storeVideo.play();
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    storeVideo.pause();
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+
+            // Video control: mute/unmute
+            let isMuted = storeVideo.muted;
+            muteBtn.addEventListener('click', function () {
+                isMuted = !isMuted;
+                storeVideo.muted = isMuted;
+                muteBtn.innerHTML = isMuted ?
+                    '<i class="fas fa-volume-mute"></i>' :
+                    '<i class="fas fa-volume-up"></i>';
+            });
+
+            // Function to play a subtle click sound
+            function playClickSound() {
+                try {
+                    // Create a simple beep sound
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                } catch (e) {
+                    console.log("Audio context not supported");
+                }
+            }
+
+            // Update date and time every second
+            setInterval(updateDateTime, 1000);
+
+            // Initialize date and time
+            updateDateTime();
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function (event) {
+                switch (event.key) {
+                    case 'ArrowRight':
+                    case ' ':
+                    case 'n':
+                        nextBtn.click();
+                        break;
+                    case 'ArrowLeft':
+                    case 'p':
+                        prevBtn.click();
+                        break;
+                    case 'r':
+                    case 'R':
+                        resetBtn.click();
+                        break;
+                    case 'm':
+                    case 'M':
+                        muteBtn.click();
+                        break;
+                    case ' ':
+                        // Prevent space from scrolling
+                        if (event.target === document.body) {
+                            event.preventDefault();
+                        }
+                        break;
+                }
+            });
+
+            // Initialize display
+            updateCounter();
+            updateStats();
+
+            // Add animation to counter on load
+            counterDisplay.style.opacity = '0';
+            counterDisplay.style.transform = 'scale(0.8) translateY(20px)';
+
+            setTimeout(() => {
+                counterDisplay.style.transition = 'opacity 0.8s, transform 0.8s';
+                counterDisplay.style.opacity = '1';
+                counterDisplay.style.transform = 'scale(1) translateY(0)';
+            }, 300);
+
+            // Add color cycling effect to text overlays
+            let colorIndex = 0;
+            const colors = [
+                '#FFD700', // Gold
+                '#FFA500', // Orange
+                '#FF69B4', // Hot Pink
+                '#87CEEB', // Sky Blue
+                '#98FB98', // Pale Green
+                '#DDA0DD'  // Plum
+            ];
+
+            function cycleTextColors() {
+                colorIndex = (colorIndex + 1) % colors.length;
+                welcomeText.style.color = colors[colorIndex];
+
+                // Gelato text gets complementary color
+                const gelatoColorIndex = (colorIndex + 3) % colors.length;
+                gelatoText.style.color = colors[gelatoColorIndex];
+            }
+
+            // Change text colors every 5 seconds
+            setInterval(cycleTextColors, 5000);
+        });
+    </script>
+</body>
+
+</html>
